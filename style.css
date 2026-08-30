@@ -1,0 +1,538 @@
+html,
+body {
+  margin: 0;
+  padding: 10px;
+  background-color: aliceblue;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  color: rgb(96, 117, 156);
+}
+
+/* @ add new css for component */
+
+.sidenav {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 160px;
+  /* Same as the width of the sidenav */
+  font-size: 28px;
+  /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+#sources {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.draggable {
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  user-select: none;
+}
+
+.green {
+  background: #4caf50;
+}
+
+.blue {
+  background: #2196f3;
+}
+
+.orange {
+  background: #ff9800;
+}
+
+.play-btn {
+  background-color: rgb(127, 255, 217);
+  margin-left: auto;
+  display: block;
+}
+
+#target1 {
+
+  height: 100%;
+  border: 0.5rem solid slategray;
+  position: relative;
+
+}
+
+#target1 .clone {
+
+  position: absolute;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  opacity: 0.85;
+  cursor: grab;
+}
+
+
+#target2 {
+
+  height: 100%;
+  border: 0.5rem solid slategray;
+  position: relative;
+
+}
+
+#target2 .clone {
+
+  position: absolute;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  opacity: 0.85;
+  cursor: grab;
+}
+
+.input-blocks-container {
+  margin-left: 160px;
+  display: block;
+  width: 40%;
+
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
+/* @ end new component */
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+
+canvas {
+  display: block;
+}
+
+#output-canvas {
+  margin-top: 20px;
+  border: 0.5rem solid slategray;
+}
+
+.output-contaner {
+  display: inline-block;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  gap: 5px;
+
+}
+
+li {
+  position: relative;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: white;
+  background: #222;
+  margin: 5px 0;
+  border-radius: 5px;
+  transition: 0.3s;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transition: 0.5s;
+}
+
+li:hover::before {
+  left: 100%;
+}
+
+li:hover {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.CodeMirror * {
+  /*          ^
+  */
+  font-family: Arial, monospace;
+  font-size: 1.2rem;
+}
+
+
+/* Optional: Styling for the editor */
+.CodeMirror {
+  border: 1px solid #ddd;
+  height: 300px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.run-btn {
+  background-color: rgb(127, 244, 255);
+  font: 1.3rem bold;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+button.run-btn:hover {
+  animation: run 1s forwards;
+}
+
+#output {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  min-height: 50px;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover,
+.dropdown:hover .dropbtn {
+  background-color: rgb(88, 222, 148);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+#clean-btn:hover {
+  animation-name: clean;
+  animation-duration: 3s;
+}
+
+#commends-btn {
+  background-color: #333;
+  color: rgb(186, 113, 254);
+  font-size: large;
+}
+
+#commends-btn:hover {
+  background-color: rgb(146, 34, 251);
+  color: azure;
+  font-size: large;
+}
+
+#examples-btn {
+  background-color: #333;
+  color: rgb(139, 129, 249);
+  font-size: large;
+}
+
+#examples-btn:hover {
+  background-color: rgb(114, 102, 248);
+  color: azure;
+  font-size: large;
+}
+
+#e1:hover {
+  color: rgb(114, 102, 248);
+}
+
+
+#commends-drop-a:hover {
+  color: rgb(146, 34, 251);
+}
+
+@keyframes clean {
+  50% {
+    font-size: 1.3rem;
+    background-color: red;
+  }
+}
+
+@keyframes run {
+
+  0% {
+    background-color: rgb(127, 244, 255);
+    font: 1.3rem bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+  }
+
+  100% {
+    font: 1.5rem bold;
+    background-color: rgb(127, 255, 204);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+  }
+}
+
+
+/* $css for popup */
+
+/* Button to open popup */
+.open-btn {
+  margin: 100px auto;
+  display: block;
+  padding: 12px 24px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.open-btn:hover {
+  background: #4338ca;
+}
+
+/* Overlay */
+.overlay {
+  display: none;
+  /* hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup form box */
+.popup {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  width: 350px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+.popup h2 {
+  margin-top: 0;
+  font-size: 22px;
+  text-align: center;
+  color: #333;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #777;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+/* Form styling */
+.popup form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.popup label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+}
+
+.popup input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border 0.2s ease;
+}
+
+.popup input:focus {
+  outline: none;
+  border: 1px solid #4f46e5;
+  box-shadow: 0 0 3px rgba(79, 70, 229, 0.4);
+}
+
+.popup button[type="submit"] {
+  padding: 12px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.popup button[type="submit"]:hover {
+  background: #4338ca;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#dubug-btn {
+  background-color: #333;
+  color: rgb(249, 203, 129);
+  font-size: large;
+}
+
+#dubug-btn:hover {
+  background-color: rgb(249, 203, 129);
+  color: azure;
+  font-size: large;
+}
+
+#dubug-btn2 {
+  text-decoration: none;
+  background-color: #333;
+  color: rgb(249, 203, 129);
+  font-size: large;
+  padding: 12px 16px;
+}
+
+#dubug-btn2:hover {
+  text-decoration: none;
+  background-color: rgb(249, 203, 129);
+  color: azure;
+  font-size: large;
+}
+
+.touchBtns {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: auto auto auto;
+  user-select: none;
+  text-overflow: hidden;
+
+}
+
+.touchBtns button {
+  display: block;
+  margin: auto;
+  width: 6rem;
+  padding: 1rem;
+}

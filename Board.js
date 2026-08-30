@@ -1,0 +1,233 @@
+import Rect from "./Rect.js";
+import { isTouchDevice } from "./helpers.js";
+
+export default class Board {
+    constructor(canvas, unitSize) {
+        this.w = canvas.width
+        this.h = canvas.height
+        this.unitSize = unitSize
+        this.grid = [];
+        this.backgroundWidth = 0;
+        this.backgroundHeight = 0;
+
+        //drawingCanvas
+        this.drawingCanvas = document.createElement('canvas');
+        this.drawing = false;
+        this.drawingState = false;
+        this.lastDrawingPos = { x: 0, y: 0 };
+
+        //initiate grid:
+        for (let y = 0; y < Math.round(this.h / this.unitSize) * 4; y++) {
+            this.grid.push([])
+            for (let x = 0; x < Math.round(this.w / this.unitSize) * 4; x++) {
+                this.grid[y].push([])
+            }
+        }
+    }
+
+    setGrid(x, y, val, playerpos) {
+        this.grid[y][x] = val;
+    }
+
+    getVal(x, y) {
+        return this.grid[y][x];
+    }
+
+    clearGrid() {
+
+        this.grid.forEach(row => {
+            row.length = 0;
+        });
+
+        this.ctxBackground.clearRect(0, 0, this.backgroundWidth, this.backgroundHeight);
+
+    }
+
+    iterateGrid(func) {
+        this.grid.forEach(row => {
+            row.forEach(col => {
+
+                if (col.x) {
+                    func(col);
+                }
+            })
+        })
+    }
+
+    getAllSubjectsFromGrid() {
+        let rects = []
+        this.grid.forEach(row => {
+            row.forEach(col => {
+
+                if (col.x) {
+                    rects.push(col)
+                }
+            })
+        })
+
+        return rects;
+    }
+
+    //#newDebugCode
+
+    createDebugBackground(rw, camera, levelSizeWidth, levelSizeHeight) {
+        let debugBackgroundSprite = document.createElement('canvas');
+        debugBackgroundSprite.width = levelSizeWidth;
+        debugBackgroundSprite.height = levelSizeHeight;
+        let ctxDebugBackgroundSprite = debugBackgroundSprite.getContext('2d');
+
+        this.ctxDebugBackgroundSprite = ctxDebugBackgroundSprite;
+
+        for (let x = rw; x < levelSizeWidth - rw; x += 50) {
+            this.ctxDebugBackgroundSprite.strokeStyle = "red";
+            this.ctxDebugBackgroundSprite.beginPath(); // Start a new path
+            this.ctxDebugBackgroundSprite.moveTo(x, rw);
+            this.ctxDebugBackgroundSprite.lineTo(x + rw, levelSizeHeight - rw);
+            this.ctxDebugBackgroundSprite.stroke(); // Render the path
+
+        }
+
+        for (let y = rw; y < levelSizeHeight - rw; y += 50) {
+            this.ctxDebugBackgroundSprite.strokeStyle = "orange";
+            this.ctxDebugBackgroundSprite.beginPath(); // Start a new path
+            this.ctxDebugBackgroundSprite.moveTo(rw, y);
+            this.ctxDebugBackgroundSprite.lineTo(levelSizeWidth - 50, y);
+            this.ctxDebugBackgroundSprite.stroke(); // Render the path
+
+        }
+
+        return function drawDebugBackground(ctx, mousePos, camera) {
+            //$ new code
+
+            let xwidth = Math.floor((mousePos.x + camera.x) / 50) * 50;
+            let yHeight = Math.floor((mousePos.y - camera.y) / 50) * 50;
+
+            ctx.globalAlpha = 0.2;
+            if (xwidth < 50 || yHeight < 50) {
+                ctx.fillStyle = "black"
+            } else {
+                ctx.fillStyle = "orange"
+            }
+
+            ctx.fillRect(-camera.x + 50, camera.y + 50, xwidth, yHeight);
+
+            ctx.globalAlpha = 1;
+
+            //$ end new code 
+
+            ctx.drawImage(debugBackgroundSprite, -camera.x, camera.y);
+        }
+
+    }
+
+    //#end newDebugCode
+
+    //create background by the given sprite and positions
+    createBackground(sprite, rects, rw, rh, camera, canvas, levelSizeWidth, levelSizeHeight) {
+
+        let backgroundSprite = document.createElement('canvas');
+        backgroundSprite.width = levelSizeWidth;
+        backgroundSprite.height = levelSizeHeight;
+        let ctxBackground = backgroundSprite.getContext('2d');
+
+        this.ctxBackground = ctxBackground;
+
+
+        for (let row = 0; row < this.grid.length; row++) {
+
+            //sum the rect unit suze to figuer the bg size
+            this.backgroundHeight += rh;
+            this.backgroundWidth += rw;
+
+            for (let col = 0; col < this.grid[row].length; col++) {
+
+
+
+                for (let i = 0; i < rects.length; i++) {
+                    if (rects[i][0] == row && rects[i][1] == col) {
+                        this.setGrid(col, row, new Rect(col * rw + canvas.width / 2, row * rh + canvas.height / 2, rw, rh, sprite, camera))
+                    }
+                }
+            }
+        }
+
+        let draw = () => {
+            this.getAllSubjectsFromGrid().forEach(rect => {
+                ctxBackground.drawImage(rect.sprite, rect.x, rect.y, rect.w, rect.h)
+            })
+        }
+
+
+
+        return function drawBackground(ctx) {
+
+
+            //draw object as image
+            draw();
+            //draw background image on main canvas
+            ctx.drawImage(backgroundSprite, -camera.x, camera.y)
+        }
+
+    }
+
+    //draw on canvas - test
+    drawOnCanvas(canvas, mousePos, camera) {
+
+        this.drawingCanvas.width = this.backgroundWidth;
+        this.drawingCanvas.height = this.backgroundHeight;
+        let ctxcan = this.drawingCanvas.getContext('2d');
+
+
+        function drawDot(x, y) { ctxcan.fillStyle = '#111'; ctxcan.beginPath(); ctxcan.arc(x, y, 3, 0, Math.PI * 2); ctxcan.fill(); }
+        function drawLine(x1, y1, x2, y2) { ctxcan.strokeStyle = '#111'; ctxcan.lineWidth = 6; ctxcan.lineCap = 'round'; ctxcan.beginPath(); ctxcan.moveTo(x1, y1); ctxcan.lineTo(x2, y2); ctxcan.stroke(); }
+
+        var pointerOrToutch_down = "pointerdown";
+        var pointerOrToutch_move = "pointermove";
+        var pointerOrToutch_up = "pointerup";
+
+        if (isTouchDevice()) {
+            console.log("Touch capabilities detected!");
+            pointerOrToutch_down = "touchstart";
+            pointerOrToutch_move = "touchmove";
+            pointerOrToutch_up = "touchend";
+        }
+
+        canvas.addEventListener(pointerOrToutch_down, e => {
+            if (!this.drawingState) {
+                e.preventDefault();
+                return;
+            }
+
+            this.drawing = true;
+            this.lastDrawingPos.x = mousePos.x + camera.x;
+            this.lastDrawingPos.y = mousePos.y - camera.y;
+            drawDot(this.lastDrawingPos.x, this.lastDrawingPos.y);
+
+
+        });
+
+        canvas.addEventListener(pointerOrToutch_move, e => {
+            if (!this.drawing || !this.drawingState) {
+                e.preventDefault();
+                return;
+            }
+
+            drawLine(this.lastDrawingPos.x, this.lastDrawingPos.y, mousePos.x + camera.x, mousePos.y - camera.y);
+            this.lastDrawingPos.x = mousePos.x + camera.x;
+            this.lastDrawingPos.y = mousePos.y - camera.y;
+        });
+
+        window.addEventListener(pointerOrToutch_up, e => {
+            this.drawing = false;
+        });
+
+        var drawingCanvasTmp = this.drawingCanvas;
+
+        return function draw() {
+            canvas.getContext('2d').drawImage(drawingCanvasTmp, -camera.x, camera.y, drawingCanvasTmp.width, drawingCanvasTmp.height);
+        }
+    }
+
+
+}
+
