@@ -705,7 +705,11 @@ sprite.set_sprites().then(() => {
 
     //$ end newDebugCode
 
-    npcs.addNpc(sprite, "1player-run-1", 100, 250, 1, 0);
+    //*for example only -> old line of code -> can be removed
+    // npcs.addNpc(sprite, "1player-run-1", 100, 250, 1, 0);
+    //*end of old line of code
+
+
     var drawNpcsLayer = npcs.createNpcsLayer(board.backgroundWidth, board.backgroundHeight);
 
 
@@ -737,6 +741,10 @@ sprite.set_sprites().then(() => {
 
     setWindowsCommandsAfterSetSprites(sprite, board, npcs,
         levels, rectW, rectH, camera, player);
+
+
+    //MainGameExample -> precode 
+    MainGameExample.precode({ player, npcs });
 
     timer.update = function (deltaTime) {
 
@@ -801,6 +809,7 @@ sprite.set_sprites().then(() => {
             rectW, rectH, camera, player,
             squere_sprite, sword, ctx);
 
+                //MainGameExample -> update
                 MainGameExample.update({player, npcs});
 
 
