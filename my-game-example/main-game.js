@@ -20,6 +20,16 @@ export default class MainGameExample {
             player.pos.x = 200;
             player.pos.y = 100;
 
+            //example
+            player.gravity = 6;
+
+            //ground example
+            for (let i = 2; i < 11; i++) {
+                for (let j of ([1, 5])) {
+                    window.rect(50 * i, j * 50)     /*  (x,y,('ground'||'grass'||'water')) צור בלוק אדמה במיקום */
+                }
+            }
+
 
         } catch (e) {
             console.log(e);
@@ -33,15 +43,6 @@ export default class MainGameExample {
         try {
 
             let { player, npcs } = args;
-            //example
-            player.gravity = 6;
-
-            //ground example
-            for (let i = 2; i < 11; i++) {
-                for (let j of ([1, 5])) {
-                    window.rect(50 * i, j * 50)     /*  (x,y,('ground'||'grass'||'water')) צור בלוק אדמה במיקום */
-                }
-            }
 
         } catch (e) {
             console.log(e);

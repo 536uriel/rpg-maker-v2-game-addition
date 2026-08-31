@@ -1,6 +1,6 @@
 import Rect from "./Rect.js";
 import { overlap } from "./collision.js";
-import { createPoolBg, createBlueHouse, createOrangeHouse, createRedHouse, createOrangetreeBg, createTreeBg, getRandomIntInclusive, setVariable, getVariable, missionsPopup} from "./helpers.js";
+import { createPoolBg, createBlueHouse, createOrangeHouse, createRedHouse, createOrangetreeBg, createTreeBg, getRandomIntInclusive, setVariable, getVariable, missionsPopup } from "./helpers.js";
 
 export function setWindowsCommandsAfterSetSprites(sprite, board, npcs,
     levels, rectW, rectH, camera, player) {
@@ -23,6 +23,29 @@ export function setWindowsCommandsAfterSetSprites(sprite, board, npcs,
     //@end new code
 
     window.random = getRandomIntInclusive;
+
+    //! fixed -> set rect in window before update loop
+    window.rect = function (x, y, squerName = "ground") {
+
+        let squere_sprite = sprite.sprites.get(squerName);
+
+        if (!squere_sprite) {
+            return;
+        }
+
+        x = Math.round(x / rectW);
+        y = Math.round(y / rectH);
+
+        if (x < 0) {
+            x = 0
+        }
+
+        if (y < 0) {
+            y = 0
+        }
+
+        board.setGrid(x, y, (new Rect(x * rectW, y * rectH, rectW, rectH, squere_sprite, camera)), player.pos);
+    }
 
 
     window.bg = function (color) {
@@ -466,27 +489,7 @@ export function setWindowsCommandsInsideUpdate(sprite, board, npcs,
         }
     }
 
-    window.rect = function (x, y, squerName = "ground") {
 
-        squere_sprite = sprite.sprites.get(squerName);
-
-        if (!squere_sprite) {
-            return;
-        }
-
-        x = Math.round(x / rectW);
-        y = Math.round(y / rectH);
-
-        if (x < 0) {
-            x = 0
-        }
-
-        if (y < 0) {
-            y = 0
-        }
-
-        board.setGrid(x, y, (new Rect(x * rectW, y * rectH, rectW, rectH, squere_sprite, camera)), player.pos);
-    }
 
     window.whenAttackDeleteNpc = function () {
         let num = window.isSwordAttcksNpcs()
@@ -555,7 +558,7 @@ export function setWindowsCommandsInsideUpdate(sprite, board, npcs,
     window.deleteNpc = function (npcNumber) {
         if (npcs.rects.length >= 1 && npcNumber != null) {
             npcs.rects.splice(npcNumber, 1);
-        }else{
+        } else {
             npcs.rects.length = 0;
         }
     }

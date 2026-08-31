@@ -744,7 +744,7 @@ sprite.set_sprites().then(() => {
 
 
     //MainGameExample -> precode 
-    MainGameExample.precode({ player, npcs });
+    MainGameExample.precode({ player });
 
     timer.update = function (deltaTime) {
 
