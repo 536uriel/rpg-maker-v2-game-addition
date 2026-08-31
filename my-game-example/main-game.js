@@ -1,15 +1,19 @@
-export class MainGameExample {
-    constructor(editor1, editor2) {
-        this.editor1 = editor1;
-        this.editor2 = editor2;
-    }
-
-    precode(...args) {
+export default class MainGameExample {
+    constructor() {
 
     }
 
-    update(...args) {
+    //args ->  object contains entities objects
+    static precode(args) {
 
+    }
+
+    //args ->  object contains entities objects
+    //update -> inside timer loop
+    static update(args) {
+        let {player} = args;
+        //example
+        //player.attack();
     }
 
 }

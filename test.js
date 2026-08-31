@@ -14,6 +14,8 @@ import { BlocksComponent } from "./blocks-editor-component.js";
 import { setWindowsCommandsAfterSetSprites, setWindowsCommandsInsideUpdate } from "./WindowsCommands.js";
 
 
+import MainGameExample from "./my-game-example/main-game.js";
+
 function isEmptyOrNull(str) {
     return str == null || (typeof str === 'string' && str.trim().length === 0);
 }
@@ -798,6 +800,8 @@ sprite.set_sprites().then(() => {
         setWindowsCommandsInsideUpdate(sprite, board, npcs,
             rectW, rectH, camera, player,
             squere_sprite, sword, ctx);
+
+                MainGameExample.update({player, npcs});
 
 
     }
