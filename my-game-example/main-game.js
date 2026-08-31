@@ -1,3 +1,5 @@
+import Rope from "./rope.js";
+
 export default class MainGameExample {
     constructor() {
     }
@@ -42,7 +44,11 @@ export default class MainGameExample {
 
         try {
 
-            let { player, npcs } = args;
+            let { ctx, player, npcs, board, camera } = args;
+
+            let rope = new Rope("black", 4);
+            
+            rope.update(ctx, player, board, camera);
 
         } catch (e) {
             console.log(e);

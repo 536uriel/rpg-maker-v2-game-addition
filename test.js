@@ -810,7 +810,7 @@ sprite.set_sprites().then(() => {
             squere_sprite, sword, ctx);
 
                 //MainGameExample -> update
-                MainGameExample.update({player, npcs});
+                MainGameExample.update({ctx, player, npcs, board, camera});
 
 
     }
