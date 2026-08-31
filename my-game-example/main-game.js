@@ -2,6 +2,7 @@ export default class MainGameExample {
     constructor() {
     }
 
+    //@ option for overriding inheritence (from window object) of cleancode
     static cleanCode() {
 
         clearBackground()      /* נקה רקע */
