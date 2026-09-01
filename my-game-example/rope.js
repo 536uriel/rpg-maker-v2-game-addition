@@ -1,7 +1,8 @@
 export default class Rope {
-    constructor(color = "black", width = 4, ropeLength = 5) {
+    constructor(color = "black", width = 4, ropeMaxLength = 7) {
         this.color = color;
         this.width = width;
+        this.ropeMaxLength = ropeMaxLength;
     }
 
     drawRope(ctx, x1, y1, x2, y2) {
@@ -10,17 +11,11 @@ export default class Rope {
         ctx.lineWidth = this.width;             // Line width in pixels
 
         // 3. Define the line path
-        ctx.beginPath();               
-        ctx.moveTo(x1, y1);            
-        ctx.lineTo(x2, y2);         
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
 
         ctx.stroke();
-    }
-
-    ropePhisics(x1, y1, x2, y2){
-        //!need to complete
-        //let dist = Math.sqrt(((x1 + x2) ^ 2) + ((y1 + y2) ^ 2));
-        
     }
 
 
@@ -29,6 +24,25 @@ export default class Rope {
         let y1 = entity1.pos.y + camera.y;
         let x2 = entity2.pos.x - camera.x;
         let y2 = entity2.pos.y + camera.y;
+
+        let dist = Math.sqrt(((x1 - x2) ** 2) + ((y1 - y2) ** 2));
+        if (dist > this.ropeMaxLength * 50) {
+            let angle = Math.atan2(y2 - y1, x2 - x1);
+            x1 = x2 - Math.cos(angle) * this.ropeMaxLength * 50;
+            y1 = y2 - Math.sin(angle) * this.ropeMaxLength * 50;
+
+
+            //fix player pos by rope length
+            entity1.pos.x = x1 + camera.x;
+
+
+            //fix player pos by rope length
+            entity1.pos.y = y1 - camera.y;
+
+
+
+        }
+
 
         this.drawRope(ctx, x1, y1, x2, y2);
     }
