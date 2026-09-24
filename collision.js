@@ -57,8 +57,11 @@ export function stopMoveWhenCollide(subject, obstacles, x, y, camera, canvas, sp
 
                 if (subject.bp > obstacle.tp) {
                     //תקן לסוף הלמעלה
-                    subject.bp = obstacle.tp;
-                    subject.jump = false;
+                    if (subject["ropeIsBlocking"] == undefined || subject["ropeIsBlocking"] == false) {
+                        subject.bp = obstacle.tp;
+                        subject.jump = false;
+                    }
+
                 }
 
             } else if (y < 0) {

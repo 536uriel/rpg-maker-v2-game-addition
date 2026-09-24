@@ -39,8 +39,12 @@ export default class Rope {
             //fix player pos by rope length
             entity1.pos.y = y1 - camera.y;
 
+            //set ropeIsBlocking to true
+            entity1.ropeIsBlocking = true;
 
 
+        }else{
+            entity1.ropeIsBlocking = false;
         }
 
 
