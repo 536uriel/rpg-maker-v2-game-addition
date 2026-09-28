@@ -3,6 +3,7 @@ export default class Rope {
         this.color = color;
         this.width = width;
         this.ropeMaxLength = ropeMaxLength;
+        this.ancor = null; // The entity to which the rope is anchored
     }
 
     drawRope(ctx, x1, y1, x2, y2) {
@@ -77,8 +78,9 @@ export default class Rope {
     }
 
     update(ctx, player, board, camera) {
-        let rect = board.getVal(5, 1);
-        this.drawRopeBetweenEntities(ctx, player, rect, camera);
+        if (this.ancor) {
+            this.drawRopeBetweenEntities(ctx, player, this.ancor, camera);
+        }
     }
 
 }
