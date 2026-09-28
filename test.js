@@ -270,7 +270,9 @@ document.getElementById("e4").addEventListener("click", () => {
 
 function cleanCode() {
     editor1.setValue(`clearBackground()      /* נקה רקע */
-bg("aliceblue")     /* צבע רקע בצבע */`);
+bg("aliceblue")     /* צבע רקע בצבע */
+player.gravity = 0     /* הוסף כוח נפילה לשחקן */
+player.pos.y = 200     /* מיקום שחקן בגובה */`);
     editor2.setValue("");
 
 }
