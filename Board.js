@@ -30,7 +30,11 @@ export default class Board {
     }
 
     getVal(x, y) {
+        if(this.grid[y] !== undefined && this.grid[y][x] !== undefined) {   
         return this.grid[y][x];
+        } else {
+            return null;
+        }
     }
 
     clearGrid() {
