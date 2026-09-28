@@ -1,7 +1,7 @@
 import Rope from "./rope.js";
 import { overlap } from ".././collision.js";
 
-var rope = new Rope("black", 4, 7); // Create a new Rope instance with a maximum length of 5 units
+window.rope = new Rope("black", 4, 7); // Create a new Rope instance with a maximum length of 5 units
 
 
 export default class MainGameExample {
@@ -40,20 +40,20 @@ export default class MainGameExample {
             canvas.addEventListener("click", (e) => {
                 let rect = board.getVal(Math.floor((mousePos.x + camera.x + 50) / 50), Math.floor((mousePos.y - camera.y) / 50));
                 if (rect == undefined || rect == null) {
-                    rope.ancor = null; // Reset the anchor if no valid entity is clicked
+                    window.rope.ancor = null; // Reset the anchor if no valid entity is clicked
                     return;
                 }
 
             document.addEventListener("keydown", (event) => {
                 if (event.code === "KeyC") {
-                    rope.ancor = null; // Reset the anchor when 'C' is pressed
+                    window.rope.ancor = null; // Reset the anchor when 'C' is pressed
                 }
             });
 
                 board.getAllSubjectsFromGrid().forEach(subject => {
                     if (overlap(subject, rect)) {
                         console.log("subject overlap with rect", subject, rect);
-                        rope.ancor = rect;
+                        window.rope.ancor = rect;
                     }
                 })
 
@@ -73,7 +73,7 @@ export default class MainGameExample {
 
             let { ctx, player, npcs, board, camera } = args;
 
-            rope.update(ctx, player, board, camera);
+            window.rope.update(ctx, player, board, camera);
 
         } catch (e) {
             console.log(e);
