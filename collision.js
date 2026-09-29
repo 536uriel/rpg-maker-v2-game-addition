@@ -125,6 +125,10 @@ export function stopNpcsMoveWhenCollide(subject, obstacles, x, y, sprite) {
                     //תקן לסוף הלמעלה
                     subject.bp = obstacle.tp;
                     subject.jump = false;
+
+                    //!bug fix for velocity when npc fall from high place
+                    subject.velocity.y = 0;
+
                 }
 
             } else if (y < 0) {
