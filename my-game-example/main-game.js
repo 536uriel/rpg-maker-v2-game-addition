@@ -38,26 +38,21 @@ export default class MainGameExample {
 
 
             canvas.addEventListener("click", (e) => {
-                let rect = board.getVal(Math.floor((mousePos.x + camera.x + 50) / 50), Math.floor((mousePos.y - camera.y) / 50));
-                if (rect == undefined || rect == null) {
+                let ancor = board.getVal(Math.floor((mousePos.x + camera.x + 50) / 50), Math.floor((mousePos.y - camera.y) / 50));
+                if (ancor == undefined || ancor == null) {
                     window.rope.ancor = null; // Reset the anchor if no valid entity is clicked
                     return;
                 }
 
-            document.addEventListener("keydown", (event) => {
-                if (event.code === "KeyC") {
-                    window.rope.ancor = null; // Reset the anchor when 'C' is pressed
-                }
-            });
 
                 board.getAllSubjectsFromGrid().forEach(subject => {
-                    if (overlap(subject, rect)) {
-                        console.log("subject overlap with rect", subject, rect);
-                        window.rope.ancor = rect;
+                    if (overlap(subject, ancor)) {
+                        console.log("subject overlap with ancor", subject, ancor);
+                        window.rope.ancor = ancor;
                     }
                 })
 
-            })
+            });
 
 
         } catch (e) {
