@@ -65,12 +65,7 @@ export default class Rope {
                 entity1.velocity.y -= velTowardAnchor * ny;
             }
 
-            //set ropeIsBlocking to true
-            entity1.ropeIsBlocking = true;
 
-
-        } else {
-            entity1.ropeIsBlocking = false;
         }
 
 
