@@ -42,7 +42,7 @@ export default class MainGameExample {
                 if (window.rope.ancorDisabled) {
                     window.rope.ancor = null;
                     return;
-                }   
+                }
 
                 let ancor = new Rect(Math.floor(mousePos.x + camera.x), Math.floor(mousePos.y - camera.y), 10, 10, sprite.sprites.get('ground'), camera);
 
@@ -59,7 +59,7 @@ export default class MainGameExample {
 
                 if (e.code === "KeyC") {
                     window.rope.ancorDisabled = !window.rope.ancorDisabled;
-                    
+
                 }
 
             });
@@ -79,6 +79,10 @@ export default class MainGameExample {
             let { ctx, player, npcs, board, camera } = args;
 
             window.rope.update(ctx, player, board, camera);
+
+            if (!window.rope.ancorDisabled) {
+                window.print('C', 25, 25, 20, 'purple')     /* ('text',x,y,font_width, 'color')הדפס כיתוב */
+            }
 
         } catch (e) {
             console.log(e);
