@@ -746,7 +746,7 @@ sprite.set_sprites().then(() => {
 
 
     //MainGameExample -> precode 
-    MainGameExample.precode({canvas, mousePos, board, player, camera });
+    MainGameExample.precode({canvas, mousePos, board, player, camera, sprite });
 
     timer.update = function (deltaTime) {
 

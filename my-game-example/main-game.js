@@ -1,8 +1,9 @@
 import Rope from "./rope.js";
 import { overlap } from ".././collision.js";
+import Rect from ".././Rect.js";
 
 window.rope = new Rope("black", 4, 7); // Create a new Rope instance with a maximum length of 5 units
-
+window.rope.ancorDisabled = false; // Initialize the ancorDisabled property to false
 
 export default class MainGameExample {
     constructor() {
@@ -22,7 +23,7 @@ export default class MainGameExample {
         try {
 
             MainGameExample.cleanCode();
-            let { canvas, mousePos, board, player, camera } = args;
+            let { canvas, mousePos, board, player, camera, sprite } = args;
             player.pos.x = 200;
             player.pos.y = 100;
 
@@ -38,12 +39,12 @@ export default class MainGameExample {
 
 
             canvas.addEventListener("click", (e) => {
-                let ancor = board.getVal(Math.floor((mousePos.x + camera.x + 50) / 50), Math.floor((mousePos.y - camera.y) / 50));
-                if (ancor == undefined || ancor == null) {
-                    window.rope.ancor = null; // Reset the anchor if no valid entity is clicked
+                if (window.rope.ancorDisabled) {
+                    window.rope.ancor = null;
                     return;
-                }
+                }   
 
+                let ancor = new Rect(Math.floor(mousePos.x + camera.x), Math.floor(mousePos.y - camera.y), 10, 10, sprite.sprites.get('ground'), camera);
 
                 board.getAllSubjectsFromGrid().forEach(subject => {
                     if (overlap(subject, ancor)) {
@@ -51,6 +52,15 @@ export default class MainGameExample {
                         window.rope.ancor = ancor;
                     }
                 })
+
+            });
+
+            document.addEventListener("keydown", (e) => {
+
+                if (e.code === "KeyC") {
+                    window.rope.ancorDisabled = !window.rope.ancorDisabled;
+                    
+                }
 
             });
 
