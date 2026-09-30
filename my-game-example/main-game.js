@@ -2,7 +2,7 @@ import Rope from "./rope.js";
 import { overlap } from ".././collision.js";
 import Rect from ".././Rect.js";
 
-window.rope = new Rope("black", 4, 7); // Create a new Rope instance with a maximum length of 5 units
+window.rope = new Rope("black", 4, 6); // Create a new Rope instance with a maximum length of 5 units
 window.rope.ancorDisabled = false; // Initialize the ancorDisabled property to false
 
 export default class MainGameExample {
@@ -24,17 +24,21 @@ export default class MainGameExample {
 
             MainGameExample.cleanCode();
             let { canvas, mousePos, board, player, camera, sprite } = args;
-            player.pos.x = 200;
+            player.pos.x = 150;
             player.pos.y = 100;
 
             //example
-            player.gravity = 6;
+            player.gravity = 4;
 
             //ground example
-            for (let i = 2; i < 11; i++) {
-                for (let j of ([1, 5])) {
+            for (let i = 1; i < 40; i++) {
+                for (let j of ([1, 12])) {
                     window.rect(50 * i, j * 50)     /*  (x,y,('ground'||'grass'||'water')) צור בלוק אדמה במיקום */
                 }
+
+
+                window.rect(50 * i * 3, 50 * 9)     /*  (x,y,('ground'||'grass'||'water')) צור בלוק אדמה במיקום */
+
             }
 
 
